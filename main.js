@@ -12,7 +12,7 @@ let repeatBtn = document.querySelector(".repeat");
 let randomButton = document.querySelector(".random-button");
 let musicDetails = document.querySelector(".music-details");
 let openDetails = document.querySelector(".open");
-let closeDetails = document.querySelector(".close");
+// let closeDetails = document.querySelector(".close");
 let audio = document.createElement("audio");
 
 let musicIndex = 0;
@@ -20,6 +20,7 @@ let updateInterval;
 
 let isRandom = false;
 let isPlaying = false;
+
 let soundData = [
   {
     name: "محدش يقولي يااخويا",
@@ -52,14 +53,30 @@ let soundData = [
     music: "sounds/هل تعلم ان المصلحه.mp3",
   },
 ];
-
+let timeDesc;
+let minute;
+let second;
 for (let i = 0; i < soundData.length; i++) {
+  let aud = new Audio(soundData[i].music);
   let content = document.createElement("div");
+  aud.load();
   content.className = "content";
-  content.innerHTML = `
-    <h2>${soundData[i].artist}</h2>
-    <p class="desc">${soundData[i].name}</p>
-`;
+  setTimeout(() => {
+    minute = Math.floor(aud.duration / 60);
+    second = Math.floor(aud.duration - minute * 60);
+
+    if (minute < 10) {
+      minute = "0" + minute;
+    }
+    if (second < 10) {
+      second = "0" + second;
+    }
+
+    content.innerHTML = `
+    <p class="desc">${minute}:${second}</p>
+    <p>${soundData[i].name}</p>`;
+    timeDesc = musicDetails.querySelectorAll(".desc");
+  }, 500);
   musicDetails.appendChild(content);
 }
 let allDiv = musicDetails.querySelectorAll(".content");
@@ -73,11 +90,7 @@ allDiv.forEach((content, idx) => {
     e.currentTarget.classList.add("active");
     musicIndex = idx;
     loadTrack(musicIndex);
-    // if (isPlaying == true) {
-    //   pauseMusic();
-    // } else {
-    //   playMusic();
-    // }
+
     playPause();
   });
 });
@@ -101,6 +114,7 @@ function loadTrack(musicIndex) {
   randomBackground();
   allDiv.forEach((e) => e.classList.remove("active"));
   allDiv[musicIndex].classList.add("active");
+  // console.log(audio.src);
 }
 
 function nextTrack() {
@@ -250,16 +264,51 @@ function pauseRandom() {
   isRandom = true;
   randomButton.classList.add("active");
 }
+openDetails.innerHTML = ` 
+<i class="fa-solid fa-bars open"></i>
+`;
 
+let click = true;
 openDetails.onclick = function () {
-  musicDetails.classList.add("active");
+  musicDetails.classList.toggle("active");
+  if (click) {
+    openDetails.innerHTML = `  
+    <i class="fa-solid fa-xmark open close"></i>
+    `;
+    click = false;
+  } else {
+    openDetails.innerHTML = ` 
+    <i class="fa-solid fa-bars open"></i>
+    `;
+    click = true;
+  }
 };
-closeDetails.onclick = function () {
-  musicDetails.classList.remove("active");
-};
+// closeDetails.onclick = function () {
+//   musicDetails.classList.remove("active");
+// };
 
 document.addEventListener("keypress", (e) => {
   if (e.key == " ") {
     playPause();
   }
 });
+
+// // add btn
+
+// let addBtn = document.querySelector(".add");
+// let addDiv = document.querySelector(".add-details");
+// let closeDiv = document.querySelector(".close-add");
+// let musicPath = document.querySelector("form .music-path");
+// let artistName = document.querySelector("form .artist-name");
+// let addMusic = document.querySelector(".add-music");
+
+// let musicName = document.querySelector(".musicName");
+// addBtn.onclick = function () {
+//   addDiv.classList.add("active");
+//   closeDiv.classList.add("active");
+// };
+
+// closeDiv.onclick = function () {
+//   closeDiv.classList.remove("active");
+//   addDiv.classList.remove("active");
+// };
