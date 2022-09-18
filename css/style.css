@@ -123,13 +123,20 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
   display: flex;
 }
+.music-details::-webkit-scrollbar  {
+  display: none;
+}
+.music-details {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 
 .player .music-details {
   position: absolute;
   width: 100%;
   height: 0;
   background-color: rgb(236, 236, 236);
-  top:0;
+  bottom:0;
   left: 0;
   transition: .4s ease;
   border-radius: 5px;
@@ -140,7 +147,7 @@ input[type=range]::-moz-range-thumb {
 }
 .player .music-details.active {
   padding: 20px;
-  height: 100%;
+  height: 60%;
   opacity: 1;
   overflow: auto;
 
@@ -179,5 +186,74 @@ input[type=range]::-moz-range-thumb {
   top: 16px;
   right: 20px;
   font-size: 33px;
+  cursor: pointer;
+}
+.player .close {
+  font-size: 40px;
+}
+.player .add {
+  position: absolute;
+  font-size: 33px;
+  top: 16px;
+  left : 20px ;
+  cursor: pointer;
+}
+
+.player .add-details {
+  position: absolute;
+  background-color: #673ab7;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: .4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player .add-details.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.player .add-details form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.close-add {
+  position: absolute;
+  top: 16px;
+  font-size: 33px;
+  right: 20px;
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: .3s;
+  cursor: pointer;
+}
+
+.close-add.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.add-details form input {
+  padding: 10px 30px;
+  border-radius: 10px;
+  border: none;
+}
+.add-details form input:focus {
+  outline: none;
+}
+
+.add-details form h2 {
+  background-color: blue;
+  padding: 3px 43px;
+  border-radius: 10px;
   cursor: pointer;
 }
